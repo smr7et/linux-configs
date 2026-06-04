@@ -31,21 +31,32 @@ echo "Ensuring ~/.local/bin is in PATH..."
 mkdir -p "$HOME/.local/bin"
 add_to_bashrc_once 'export PATH="$PATH:$HOME/.local/bin"'
 
+MISE_BIN="$HOME/.local/bin/mise"
+
 echo "Installing mise..."
 curl https://mise.run | sh
 
 add_to_bashrc_once 'eval "$("$HOME/.local/bin/mise" activate bash)"'
 
-echo "Activating mise for current script session..."
-eval "$("$HOME/.local/bin/mise" activate bash)"
+echo "Activating mise for this script session..."
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:$PATH"
+
+set +u
+eval "$("$MISE_BIN" activate bash)"
+set -u
 
 echo "Installing Node LTS with mise..."
-mise use -g node@lts
+"$MISE_BIN" install node@lts
+"$MISE_BIN" use -g node@lts
 
-echo "Reloading ~/.bashrc after Node install..."
-set +u
-source "$HOME/.bashrc"
-set -u
+echo "Refreshing mise shims..."
+"$MISE_BIN" reshim node@lts 2>/dev/null || "$MISE_BIN" reshim 2>/dev/null || true
+
+hash -r
+
+echo "Checking Node through mise..."
+"$MISE_BIN" exec node@lts -- node --version
+"$MISE_BIN" exec node@lts -- npm --version
 
 echo "Node version:"
 node --version
@@ -73,7 +84,7 @@ git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
 rm -rf "$HOME/.config/nvim/.git"
 
 echo "Installing Pi agent..."
-curl -fsSL https://pi.dev/install.sh | sh
+curl -fsSL https://pi.dev/install.sh | "$MISE_BIN" exec node@lts -- sh
 
 echo "Copying tmux config..."
 cp "$REPO_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
