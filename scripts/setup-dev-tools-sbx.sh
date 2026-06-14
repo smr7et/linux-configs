@@ -35,7 +35,7 @@ mkdir -p ~/.config/zellij
 
 cat >~/.config/zellij/config.kdl <<'EOF'
   default_shell "/bin/bash"
-  EOF
+EOF
 
 echo "Ensuring ~/.local/bin is in PATH..."
 mkdir -p "$HOME/.local/bin"
@@ -126,13 +126,10 @@ tmux source-file "$HOME/.tmux.conf"
 
 tmux kill-session -t "$TPM_SESSION" 2>/dev/null || true
 
-cat >>~/.bashrc <<'EOF'
-
-# UTF-8 for tmux / nvim / Nerd Font glyph width
-export LANG=C.UTF-8
-export LC_CTYPE=C.UTF-8
-unset LC_ALL
-EOF
+add_to_bashrc_once '# UTF-8 for tmux / nvim / Nerd Font glyph width'
+add_to_bashrc_once 'export LANG=C.UTF-8'
+add_to_bashrc_once 'export LC_CTYPE=C.UTF-8'
+add_to_bashrc_once 'unset LC_ALL'
 
 cat >>~/.tmux.conf <<'EOF'
 
