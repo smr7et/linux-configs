@@ -25,7 +25,17 @@ sudo apt install -y \
   ripgrep \
   curl \
   fzf \
-  tmux
+  tmux \
+  cargo
+
+cargo install cargo-binstall
+cargo binstall zellij
+
+mkdir -p ~/.config/zellij
+
+cat >~/.config/zellij/config.kdl <<'EOF'
+  default_shell "/bin/bash"
+  EOF
 
 echo "Ensuring ~/.local/bin is in PATH..."
 mkdir -p "$HOME/.local/bin"
