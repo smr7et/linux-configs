@@ -116,6 +116,23 @@ tmux source-file "$HOME/.tmux.conf"
 
 tmux kill-session -t "$TPM_SESSION" 2>/dev/null || true
 
+cat >>~/.bashrc <<'EOF'
+
+# UTF-8 for tmux / nvim / Nerd Font glyph width
+export LANG=C.UTF-8
+export LC_CTYPE=C.UTF-8
+unset LC_ALL
+EOF
+
+cat >>~/.tmux.conf <<'EOF'
+
+# Terminal compatibility
+set -g default-terminal "tmux-256color"
+set -as terminal-overrides ",xterm-256color:Tc"
+set -as terminal-overrides ",tmux-256color:Tc"
+set -g fill-character ' '
+EOF
+
 echo "Copying starship config..."
 mkdir -p "$HOME/.config"
 cp "$REPO_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
