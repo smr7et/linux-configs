@@ -31,6 +31,8 @@ sudo apt install -y \
 cargo install cargo-binstall
 cargo binstall zellij
 
+add_to_bashrc_once 'export PATH="$PATH:$HOME/.cargo/bin"'
+
 mkdir -p ~/.config/zellij
 
 cat >~/.config/zellij/config.kdl <<'EOF'
