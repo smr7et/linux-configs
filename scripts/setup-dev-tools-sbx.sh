@@ -26,6 +26,7 @@ sudo apt install -y \
   curl \
   fzf \
   tmux \
+  zip \
   cargo
 
 cargo install cargo-binstall
