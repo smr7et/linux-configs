@@ -25,20 +25,7 @@ sudo apt install -y \
   ripgrep \
   curl \
   fzf \
-  tmux \
-  zip \
-  cargo
-
-cargo install cargo-binstall
-cargo binstall zellij
-
-add_to_bashrc_once 'export PATH="$PATH:$HOME/.cargo/bin"'
-
-mkdir -p ~/.config/zellij
-
-cat >~/.config/zellij/config.kdl <<'EOF'
-  default_shell "/bin/bash"
-EOF
+  zip 
 
 echo "Ensuring ~/.local/bin is in PATH..."
 mkdir -p "$HOME/.local/bin"
@@ -102,50 +89,8 @@ rm -rf "$HOME/.config/nvim/.git"
 echo "Installing Pi agent..."
 curl -fsSL https://pi.dev/install.sh | "$MISE_BIN" exec node@lts -- sh
 
-echo "Copying tmux config..."
-cp "$REPO_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
-
-echo "Installing TPM..."
-mkdir -p "$HOME/.tmux/plugins"
-
-if [ ! -d "$HOME/.tmux/plugins/tpm/.git" ]; then
-  git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-else
-  git -C "$HOME/.tmux/plugins/tpm" pull --ff-only
-fi
-
-echo "Installing tmux plugins..."
-
-TPM_SESSION="tpm-bootstrap-$$"
-
-tmux new-session -d -s "$TPM_SESSION"
-
-tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins"
-tmux source-file "$HOME/.tmux.conf"
-
-"$HOME/.tmux/plugins/tpm/bin/install_plugins"
-
-tmux source-file "$HOME/.tmux.conf"
-
-tmux kill-session -t "$TPM_SESSION" 2>/dev/null || true
-
-add_to_bashrc_once '# UTF-8 for tmux / nvim / Nerd Font glyph width'
-add_to_bashrc_once 'export LANG=C.UTF-8'
-add_to_bashrc_once 'export LC_CTYPE=C.UTF-8'
-add_to_bashrc_once 'unset LC_ALL'
-
-cat >>~/.tmux.conf <<'EOF'
-
-# Terminal compatibility
-set -g default-terminal "tmux-256color"
-set -as terminal-overrides ",xterm-256color:Tc"
-set -as terminal-overrides ",tmux-256color:Tc"
-set -g fill-character ' '
-EOF
-
-echo "Copying starship config..."
-mkdir -p "$HOME/.config"
-cp "$REPO_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
+echo "Installing Herdr multiplexer..."
+curl -fsSL https://herdr.dev/install.sh | sh
 
 echo "Copying Neovim config..."
 rm -rf "$HOME/.config/nvim"
