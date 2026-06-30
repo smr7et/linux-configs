@@ -25,7 +25,10 @@ sudo apt install -y \
   ripgrep \
   curl \
   fzf \
-  zip 
+  zip \
+  telnet \
+  iproute2 
+  
 
 echo "Ensuring ~/.local/bin is in PATH..."
 mkdir -p "$HOME/.local/bin"
