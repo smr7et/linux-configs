@@ -27,8 +27,12 @@ sudo apt install -y \
   fzf \
   zip \
   telnet \
-  iproute2 
+  iproute2 \
+  cargo \
+  atuin
   
+cargo install cargo-binstall
+add_to_bashrc_once 'export PATH="$PATH:$HOME/.cargo/bin"'
 
 echo "Ensuring ~/.local/bin is in PATH..."
 mkdir -p "$HOME/.local/bin"
