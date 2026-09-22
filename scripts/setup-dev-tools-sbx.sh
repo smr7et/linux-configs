@@ -16,6 +16,10 @@ echo "Running from repo: $REPO_DIR"
 
 echo "Installing apt packages..."
 sudo apt update
+sudo apt install -y cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+rustup update stable
 sudo apt install -y \
   gcc \
   make \
@@ -30,7 +34,7 @@ sudo apt install -y \
   iproute2 \
   cargo \
   atuin
-  
+
 cargo install cargo-binstall
 add_to_bashrc_once 'export PATH="$PATH:$HOME/.cargo/bin"'
 
