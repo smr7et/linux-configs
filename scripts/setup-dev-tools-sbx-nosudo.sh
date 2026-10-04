@@ -44,7 +44,7 @@ add_to_bashrc_once 'export PATH="$PATH:$HOME/.local/bin"'
 export PATH="$LOCAL_BIN:$PATH"
 
 echo "Checking system packages (no sudo available, not installing)..."
-for tool in gcc make fzf git curl unzip zip telnet ip rg; do
+for tool in gcc make fzf git curl unzip zip telnet ip rg xclip; do
   if have "$tool"; then
     note "ok          $tool (system)"
   elif [ "$tool" = "fzf" ]; then

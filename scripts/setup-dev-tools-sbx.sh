@@ -32,6 +32,7 @@ sudo apt install -y \
   zip \
   telnet \
   iproute2 \
+  xclip \
   cargo \
   atuin
 
